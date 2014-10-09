@@ -1,0 +1,13 @@
+{
+  "name": "reformat-bootstrap",
+  "version": "1.0",
+  "dependencies": {
+    "normalize.css": "~3.0.1",
+    "modernizr": "~2.7.2",
+    "jquery": "~1.11.1",
+    "animate.css":"3.1.1",
+    "jquery-cycle2":"~2.1.5",
+    "fontawesome":"4.1.0"
+  },
+  "private": true
+}

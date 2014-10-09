@@ -1,0 +1,28 @@
+/* Variables */
+
+@fontSize : 12px;
+@lineHeight : 18px;
+
+/* Grid */
+
+@containerWidth : 960;
+@marginWidth : 10;
+@columns : 12;
+
+/* Colours */
+
+@base : #E6E5E2; /* this is the base font colour */
+@red: #c00; /* any other colours */
+
+/* Imports */
+
+@import "normalize.less";
+@import "prefixer.less";
+@import "animate.less";
+@import 'grid.less';
+
+body {
+	font-size:@fs;
+	line-height:@lh;
+	color:@base;
+}

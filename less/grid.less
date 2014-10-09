@@ -1,0 +1,46 @@
+.container {
+    width: @containerWidth + ( @marginWidth * 2 ) * 1px;
+    margin:0 auto;
+    overflow: hidden;
+}
+
+.row {
+  margin-left:-0px;
+}
+
+.row:after {
+    content: ".";
+    display: block;
+    clear: both;
+    visibility: hidden;
+    line-height: 0;
+    height: 0;
+}
+
+.span1, .span2, .span3, .span4, .span5, .span6, .span7, .span8 , .span9, .span10, .span11, .span12 {
+    border-left-width:0px;
+    padding:0 0px;
+    border:0px solid rgba(0,0,0,0);
+    float:left;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+    box-sizing:border-box;
+    -moz-background-clip:padding-box !important;
+    -webkit-background-clip:padding-box !important;
+    background-clip:padding-box !important;
+    position:relative;
+    margin:0 100%*(@marginWidth/@containerWidth);
+}
+
+.grid-loop (@index) when (@index > 0) {
+    .span@{index} {
+        width:100%*( ( ( (@containerWidth/@columns) * @index ) - (2 * @marginWidth) ) / @containerWidth);
+    }
+    .offset@{index} {
+        margin-left: 100%*( ( ( (@containerWidth/@columns) * @index ) - (2 * @marginWidth) + ( @marginWidth * 3 ) ) / @containerWidth );
+    }
+    .grid-loop(@index - 1);
+}
+
+.grid-loop(0) {}
+.grid-loop(@columns);
