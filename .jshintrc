@@ -5,7 +5,7 @@
     "immed": true,
     "newcap": true,
     "esnext": true,
-    "camelcase": true,
+    "camelcase": false,
     "latedef": true,
     "noarg": true,
     "node": true,
@@ -17,9 +17,9 @@
     "supernew": true,
     "globals": {
         "google": true,
-        "Backbone": true,
+        "Modernizr": true,
         "_": true,
         "jQuery": true,
-        "WOW" : true
+        "WURFL" : true
     }
 }
