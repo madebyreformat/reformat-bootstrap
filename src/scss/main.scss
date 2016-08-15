@@ -1,15 +1,77 @@
 @import "compass";
 @import "susy";
 @import "breakpoint";
-@import "normalize.scss";
-@import "mixins.scss";
+
+/* Vertical Rhythm */
+
+$base-font-size: 16px; 
+$base-line-height: 20px; 
+$round-to-nearest-half-line: true; 
+
+@include establish-baseline;
+
+/* Susy Grid */
+
+$total-columns  : 12;
 
 $susy: (
-	columns: 12,
-	gutters: 1/4,
-	math: fluid,
-	output: float,
-	gutter-position: inside,
+	container: 960px,
+	columns: $total-columns,
+	gutters: 1/3,
+	gutter-position: split,
+	global-box-sizing: border-box,
+	// debug: (
+	// 	image: show,
+	// 	color: rgba(#66f, .25),
+	// 	output: background,
+	// 	toggle: top right,
+	// )
 );
 
-// @include layout( 12 (60px 20px) split static); // 960gs
+/* Colours */
+
+$light-blue: #96a7b1;
+$blue: #005caa;
+$green: #bce0cd;
+$red: #f27459;
+$dark-red: #8d3027;
+$grey: #747678;
+$black: #000134;
+$white: #f4f1e7;
+$light-grey: #9ca299;
+$yellow: #fcb614;
+$dark-blue: $black;
+$steel: #8fa0a5;
+
+$font-small : 14px;
+$font-base : 16px;
+$font-medium : 21px;
+$font-large : 28px;
+$font-xlarge : 60px;
+
+$easing : cubic-bezier(0.645, 0.045, 0.355, 1.000);
+
+/* Breakpoints */
+
+$width-small: 320px;
+$width-medium: 768px;
+$width-large: 1024px;
+$width-xlarge: 1140px;
+
+$small : $width-small;
+$medium : $width-medium;
+$large : $width-large;
+$xlarge : $width-xlarge;
+
+$tablet: (min-device-width 768px) (max-device-width 1024px);
+$tablet-portrait: (max-device-width 1024px) (orientation portrait);
+
+@include border-box-sizing;
+
+// Uses sass-globbing
+// https://github.com/chriseppstein/sass-globbing
+
+@import "global/*";
+@import "lib/*";
+@import "templates/*";
+@import "components/*";

@@ -20,6 +20,7 @@
         "Modernizr": true,
         "_": true,
         "jQuery": true,
-        "WURFL" : true
+        "Waypoint" : true,
+        "WOW" : true
     }
 }

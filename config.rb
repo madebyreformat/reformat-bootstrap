@@ -1,5 +1,7 @@
+require 'compass/import-once/activate'
 require "susy"
 require "breakpoint"
+require 'sass-globbing'
 
 project_type = :stand_alone
 http_path = "/"
