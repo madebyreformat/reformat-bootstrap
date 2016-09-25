@@ -1,18 +1,11 @@
 {
   "devDependencies": {
     "browser-sync": "^2.7.9",
-    "gulp": "^3.9.0",
-    "gulp-compass": "^2.0.3",
-    "gulp-sourcemaps": "^1.6.0"
-  },
-  "name": "test",
-  "version": "1.0.0",
-  "main": "gulpfile.js",
-  "dependencies": {
     "del": "^1.1.1",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-cache": "^0.2.4",
     "gulp-clean-css": "^2.0.10",
+    "gulp-compass": "^2.0.3",
     "gulp-concat": "^2.5.0",
     "gulp-imagemin": "^2.2.0",
     "gulp-jshint": "^1.9.2",
@@ -20,9 +13,13 @@
     "gulp-newer": "^1.2.0",
     "gulp-notify": "^2.2.0",
     "gulp-rename": "^1.2.0",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.1.0",
     "jshint-stylish": "^1.0.0"
   },
+  "name": "test",
+  "version": "1.0.0",
+  "main": "gulpfile.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
