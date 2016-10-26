@@ -15,17 +15,17 @@ $round-to-nearest-half-line: true;
 $total-columns  : 12;
 
 $susy: (
-	container: 960px,
+	container: 1440px,
 	columns: $total-columns,
 	gutters: 1/3,
-	gutter-position: split,
+	// gutter-position: split,
 	global-box-sizing: border-box,
-	// debug: (
-	// 	image: show,
-	// 	color: rgba(#66f, .25),
-	// 	output: background,
-	// 	toggle: top right,
-	// )
+	debug: (
+		image: show,
+		color: rgba(#66f, .25),
+		output: background,
+		toggle: top right,
+	)
 );
 
 /* Colours */
@@ -47,7 +47,7 @@ $font-small : 14px;
 $font-base : 16px;
 $font-medium : 21px;
 $font-large : 28px;
-$font-xlarge : 60px;
+$font-xlarge : 48px;
 
 $easing : cubic-bezier(0.645, 0.045, 0.355, 1.000);
 
@@ -58,10 +58,10 @@ $width-medium: 768px;
 $width-large: 1024px;
 $width-xlarge: 1140px;
 
-$small : $width-small;
-$medium : $width-medium;
-$large : $width-large;
-$xlarge : $width-xlarge;
+$sml : $width-small;
+$med : $width-medium;
+$lrg : $width-large;
+$xlrg : $width-xlarge;
 
 $tablet: (min-device-width 768px) (max-device-width 1024px);
 $tablet-portrait: (max-device-width 1024px) (orientation portrait);
