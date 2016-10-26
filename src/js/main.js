@@ -14,6 +14,6 @@ Object.size = function(obj) {
 
 (function($) {
 
-	
+	// javascript goes here instead of inside a $(document).ready
 
 })(jQuery);
