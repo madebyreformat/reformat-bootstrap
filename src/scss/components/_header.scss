@@ -1,0 +1,15 @@
+.main-header {
+	@include span(12);
+	margin: rhythm() 0;
+}
+
+.branding {
+	@include span(6);
+}
+
+.navbar {
+	display: none;
+	@include breakpoint(1025px){
+		@include span(12);
+	}
+}

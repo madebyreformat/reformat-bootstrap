@@ -1,0 +1,5 @@
+.wrap {
+	@include container;
+	@include clearfix;
+	padding:0 rhythm();
+}

@@ -1,0 +1,137 @@
+// mobile tools is a wrapper for the burger menu etc
+
+.mobile-tools {
+	@include span(6 last);
+	// margin-top:28px;
+	@include breakpoint($med){
+		// margin-top:34px;
+	}
+	@include breakpoint(1025px){
+		display:none;
+	}
+	
+}
+
+.mobile-icon {
+	display:block;
+	width:25px;
+	height:25px;
+	margin-left:10px;
+	@include breakpoint($med){
+		width:rhythm(1.5);
+		height:rhythm(1.5);
+		margin-left:rhythm(1);
+	}
+	float:right;
+}
+
+
+// change colours of these in the SVG files
+
+
+.icon-email {
+	background-image:url(../img/icon-envelope.svg);
+}
+
+.icon-phone {
+	background-image:url(../img/icon-phone.svg);
+}
+
+.icon-close {
+	background-image:url(../img/icon-close.svg);
+}
+
+.icon-search {
+	background-image:url(../img/icon-search.svg);
+}
+
+.icon-toggle {
+	background-image:url(../img/icon-bars.svg);
+	&.close {
+		background-image:url(../img/icon-close.svg);
+	}
+}
+
+
+/* Sidr 
+********************************************************/
+
+$sidr-bg : white;
+$sidr-divider : black; // line on left side of sidebar, set to transparent to disable
+$sidr-font-color : #000;
+$sidr-font-color2 : red; // use for down state or sub menu
+
+.sidr {
+    display: none;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    z-index: 999999;
+    width: 240px;
+    @include breakpoint(375px){
+    	width: 300px;
+    }
+    overflow-x: none;
+    overflow-y: auto;
+    background: $sidr-bg;
+}
+
+
+.sidr.right {
+    left: auto;
+    right: -240px;
+    @include breakpoint(375px){
+    	right: -300px;
+	}
+}
+.sidr.left {
+    left: -240px;
+    @include breakpoint(375px){
+    	left: -300px;
+	}
+    right: auto;
+}
+
+.sidr-inner {
+	height:100%;
+	padding:rhythm(.5) rhythm();
+	border-left:1px solid $sidr-divider;
+	ul {
+		list-style:none;
+		// font-size:12px;
+		text-transform:uppercase;
+		margin-bottom:rhythm();
+		li {
+			a {
+				display:block;
+				padding:2px 3px;
+				color:$sidr-font-color;
+				text-decoration:none;
+				&:hover {
+					color:$sidr-font-color2;
+				}
+			}
+			&.sidr-class-active {
+				a {
+					color:$sidr-font-color2;
+				}
+			}
+			position:relative;
+			&:nth-last-of-type(-n+1) {
+				border-bottom:0;
+			}
+		}
+		&.sidr-class-children {
+			display: none;
+			a {
+				color:$sidr-font-color2;
+			}
+		}
+		li.sidr-class-current_page_item {
+			.sidr-class-children {
+				margin-left:10px;
+				display: block;
+			}
+		}
+	}
+}
