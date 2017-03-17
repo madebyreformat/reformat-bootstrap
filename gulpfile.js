@@ -13,8 +13,7 @@ var gulp = require('gulp'),
     newer = require('gulp-newer'),
     del = require('del'),
     autoprefixer = require('gulp-autoprefixer'),
-    stylish = require('jshint-stylish'),
-    modernizr = require('gulp-modernizr');;
+    stylish = require('jshint-stylish');
 
 var browserSync = require('browser-sync').create();
 
@@ -27,12 +26,6 @@ function errorLog(error){
 gulp.task('fonts', function() {
   return gulp.src('src/fonts/**/*')
   .pipe(gulp.dest('build/fonts'));
-});
-
-gulp.task('modernizr', function() {
-  gulp.src('./js/*.js')
-    .pipe( modernizr() )
-    .pipe( gulp.dest("build/js") );
 });
 
 // Check javascript task
@@ -85,8 +78,7 @@ gulp.task('styles', function(){
             console.log(details.name + ': ' + details.stats.minifiedSize);
         }) )
   .pipe( gulp.dest('build/css') )
-  .pipe( browserSync.stream({match: '**/*.css'}) )
-  .pipe( notify({ message: 'Styles task complete' }) );
+  .pipe( browserSync.stream({match: '**/*.css'}) );
 });
 
 // Images task
@@ -125,4 +117,4 @@ gulp.task('init', ['clean','checkjs'], function() {
     gulp.start('styles', 'scripts', 'images', 'movejs');
 });
 
-gulp.task('default', ['serve','modernizr']);
+gulp.task('default', ['serve']);
