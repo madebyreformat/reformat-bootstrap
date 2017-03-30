@@ -8,15 +8,17 @@
 
 var config = require('./package.json'),
 gulp = require('gulp'),
+del = require('del'),
+runSequence = require('run-sequence'),
 plugins = require('gulp-load-plugins')(),
 browserSync = require('browser-sync').create(),
 options  = {
 	dev : {
-		tasks : ['dev:css'],
+		tasks : ['dev:css','dev:img'],
 		dir: 'build'
 	},
 	dist : {
-		tasks : ['minify:css'],
+		tasks : ['clean','dist:css','dist:img'],
 		dir: 'dist'
 	}
 };
@@ -34,11 +36,20 @@ gulp.task('dev:css', function(){
     sourcemap : true
   }) )
   .pipe( plugins.sourcemaps.init({ loadMaps: true }) )
-  .pipe( plugins.autoprefixer() )
+  .pipe( plugins.autoprefixer({ browsers: [ 'ie >= 10', 'android >= 4.1' ] }) )
   .pipe( plugins.sourcemaps.write('.') )
   .pipe( gulp.dest( options.dev.dir + '/css' ) )
   .pipe( plugins.notify({ message: 'Styles task complete' }) );
 });
+
+
+gulp.task('dev:img',function(){
+  return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
+  .pipe( plugins.newer( options.dev.dir + '/img' ) )
+  .pipe( gulp.dest( options.dev.dir + '/img' ) )
+  .pipe( plugins.notify({ message: 'Images task complete' }) );
+});
+
 
 gulp.task( 'dev', function() {
   options.dev.tasks.forEach( function( task ) {
@@ -50,7 +61,7 @@ gulp.task( 'dev', function() {
 // Production Tasks
 // -------------------------------------
 
-gulp.task('minify:css', function(){
+gulp.task('dist:css', function(){
   return gulp.src('src/scss/main.scss')
   .pipe( plugins.compass({
     css : options.dist.dir + '/css',
@@ -58,7 +69,7 @@ gulp.task('minify:css', function(){
     require : ['susy'],
     sourcemap : false
   }) )
-  .pipe( plugins.autoprefixer() )
+  .pipe( plugins.autoprefixer({ browsers: [ 'ie >= 10', 'android >= 4.1' ] }) )
   .pipe( plugins.cleanCss({ 
     level: {
       1: {
@@ -72,10 +83,15 @@ gulp.task('minify:css', function(){
   .pipe( plugins.notify({ message: 'Styles task complete' }) );
 });
 
-gulp.task( 'dist', function() {
-  options.dist.tasks.forEach( function( task ) {
-    gulp.start( task );
-  });
+gulp.task('dist:img',function(){
+  return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
+  .pipe( plugins.image() )
+  .pipe( gulp.dest( options.dist.dir + '/img' ) )
+  .pipe( plugins.notify({ message: 'Images task complete' }) );
+});
+
+gulp.task( 'dist', function(callback) {
+  runSequence(options.dist.tasks, callback);
 });
 
 // -------------------------------------
@@ -96,6 +112,11 @@ gulp.task('serve', ['dev:css'], function() {
     // gulp.watch('src/img/**/*', ['images']).on('change', browserSync.reload);
     gulp.watch("*.php").on('change', browserSync.reload);
 
+});
+
+gulp.task('clean', function(callback) {
+    plugins.cache.clearAll();
+    del( options.dist.dir, callback);
 });
 
 gulp.task('default', ['serve']);
