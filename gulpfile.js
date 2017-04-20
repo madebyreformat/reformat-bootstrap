@@ -1,27 +1,19 @@
-// var config = {
-//   url : "reformat-bootstrap.dev"
-// };
-
-// https://frontend.irish/npm-config-variables
-// https://gist.github.com/LandonSchropp/2816314bb336fbe1f4e6
-
-
 var config = require('./package.json'),
-gulp = require('gulp'),
-del = require('del'),
-runSequence = require('run-sequence'),
-plugins = require('gulp-load-plugins')(),
-browserSync = require('browser-sync').create(),
-options  = {
-  dev : {
-    tasks : ['dev:css','dev:js','dev:img'],
-    dir: 'build'
-  },
-  dist : {
-    tasks : ['clean','dist:css','dist:js','dist:img'],
-    dir: 'dist'
-  }
-};
+    gulp = require('gulp'),
+    del = require('del'),
+    runSequence = require('run-sequence'),
+    plugins = require('gulp-load-plugins')(),
+    browserSync = require('browser-sync').create(),
+    options  = {
+      dev : {
+        tasks : ['dev:css','dev:js','dev:img','dev:fonts'],
+        dir: 'build'
+      },
+      dist : {
+        tasks : ['clean','dist:css','dist:js','dist:img','dist:fonts'],
+        dir: 'dist'
+      }
+    };
 
 // -------------------------------------
 // Development Tasks
@@ -58,6 +50,12 @@ gulp.task('dev:img',function(){
   .pipe( plugins.notify({ message: 'Images task complete' }) );
 });
 
+gulp.task('dev:fonts',function(){
+  return gulp.src( ['src/webfonts/**/*'] )
+  .pipe( plugins.newer( options.dev.dir + '/webfonts' ) )
+  .pipe( gulp.dest( options.dev.dir + '/webfonts' ) )
+  .pipe( plugins.notify({ message: 'Fonts task complete' }) );
+});
 
 gulp.task( 'dev', function() {
   options.dev.tasks.forEach( function( task ) {
@@ -99,6 +97,12 @@ gulp.task('dist:js', function(){
     .pipe( plugins.notify({ message: 'Scripts task complete' }) );
 });
 
+gulp.task('dist:fonts',function(){
+  return gulp.src( ['src/webfonts/**/*'] )
+  .pipe( gulp.dest( options.dist.dir + '/webfonts' ) )
+  .pipe( plugins.notify({ message: 'Fonts task complete' }) );
+});
+
 gulp.task('dist:img',function(){
   return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
   .pipe( plugins.image() )
@@ -114,6 +118,7 @@ gulp.task( 'dist', function(callback) {
 // Utility Tasks
 // -------------------------------------
 
+
 gulp.task('serve', ['dev:css'], function() {
     
     browserSync.init({
@@ -126,6 +131,7 @@ gulp.task('serve', ['dev:css'], function() {
     gulp.watch('src/scss/**/*.scss', ['dev:css']);
     gulp.watch('src/js/**/*.js', ['dev:js']).on('change', browserSync.reload);
     gulp.watch('src/img/**/*', ['dev:img']).on('change', browserSync.reload);
+    gulp.watch('src/webfonts/**/*', ['dev:fonts']).on('change', browserSync.reload);
     gulp.watch("*.php").on('change', browserSync.reload);
 
 });
