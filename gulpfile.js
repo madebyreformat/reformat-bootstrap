@@ -13,14 +13,14 @@ runSequence = require('run-sequence'),
 plugins = require('gulp-load-plugins')(),
 browserSync = require('browser-sync').create(),
 options  = {
-	dev : {
-		tasks : ['dev:css','dev:img'],
-		dir: 'build'
-	},
-	dist : {
-		tasks : ['clean','dist:css','dist:img'],
-		dir: 'dist'
-	}
+  dev : {
+    tasks : ['dev:css','dev:js','dev:img'],
+    dir: 'build'
+  },
+  dist : {
+    tasks : ['clean','dist:css','dist:js','dist:img'],
+    dir: 'dist'
+  }
 };
 
 // -------------------------------------
@@ -42,6 +42,14 @@ gulp.task('dev:css', function(){
   .pipe( plugins.notify({ message: 'Styles task complete' }) );
 });
 
+gulp.task('dev:js', function(){
+  return gulp.src( ['src/js/plugins.js','src/js/plugins/*.js','src/js/main.js'] )
+    .pipe( plugins.sourcemaps.init() )
+    .pipe( plugins.concat('main.js') )
+    .pipe( plugins.sourcemaps.write('.') )
+    .pipe( gulp.dest( options.dist.dir + '/js' ) )
+    .pipe( plugins.notify({ message: 'Scripts task complete' }) );
+});
 
 gulp.task('dev:img',function(){
   return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
@@ -83,6 +91,14 @@ gulp.task('dist:css', function(){
   .pipe( plugins.notify({ message: 'Styles task complete' }) );
 });
 
+gulp.task('dist:js', function(){
+  return gulp.src( ['src/js/plugins.js','src/js/plugins/*.js','src/js/main.js'] )
+    .pipe( plugins.concat('main.js') )
+    .pipe( plugins.uglify() )
+    .pipe( gulp.dest( options.dist.dir + '/js' ) )
+    .pipe( plugins.notify({ message: 'Scripts task complete' }) );
+});
+
 gulp.task('dist:img',function(){
   return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
   .pipe( plugins.image() )
@@ -108,8 +124,8 @@ gulp.task('serve', ['dev:css'], function() {
     });
 
     gulp.watch('src/scss/**/*.scss', ['dev:css']);
-    // gulp.watch('src/js/**/*.js', ['scripts']).on('change', browserSync.reload);
-    // gulp.watch('src/img/**/*', ['images']).on('change', browserSync.reload);
+    gulp.watch('src/js/**/*.js', ['dev:js']).on('change', browserSync.reload);
+    gulp.watch('src/img/**/*', ['dev:img']).on('change', browserSync.reload);
     gulp.watch("*.php").on('change', browserSync.reload);
 
 });
