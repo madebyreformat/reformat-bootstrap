@@ -1,19 +1,19 @@
 var config = require('./package.json'),
-    gulp = require('gulp'),
-    del = require('del'),
-    runSequence = require('run-sequence'),
-    plugins = require('gulp-load-plugins')(),
-    browserSync = require('browser-sync').create(),
-    options  = {
-      dev : {
-        tasks : ['dev:css','dev:js','dev:img','dev:fonts'],
-        dir: 'build'
-      },
-      dist : {
-        tasks : ['clean','dist:css','dist:js','dist:img','dist:fonts'],
-        dir: 'dist'
-      }
-    };
+gulp = require('gulp'),
+del = require('del'),
+runSequence = require('run-sequence'),
+plugins = require('gulp-load-plugins')(),
+browserSync = require('browser-sync').create(),
+options  = {
+  dev : {
+    tasks : ['dev:css','dev:js','dev:img','dev:fonts'],
+    dir: 'build'
+  },
+  dist : {
+    tasks : ['clean','dist:css','dist:js','dist:fonts','dist:html','dist:img'],
+    dir: 'dist'
+  }
+};
 
 // -------------------------------------
 // Development Tasks
@@ -39,7 +39,7 @@ gulp.task('dev:js', function(){
     .pipe( plugins.sourcemaps.init() )
     .pipe( plugins.concat('main.js') )
     .pipe( plugins.sourcemaps.write('.') )
-    .pipe( gulp.dest( options.dist.dir + '/js' ) )
+    .pipe( gulp.dest( options.dev.dir + '/js' ) )
     .pipe( plugins.notify({ message: 'Scripts task complete' }) );
 });
 
@@ -89,6 +89,19 @@ gulp.task('dist:css', function(){
   .pipe( plugins.notify({ message: 'Styles task complete' }) );
 });
 
+gulp.task('dist:html', function() {
+  return gulp.src( ['*.html','*.php'] )
+    .pipe( plugins.htmlmin({ 
+      collapseWhitespace: true,
+      removeComments: true,
+      minifyJS: true }))
+    .pipe( plugins.replace('build/img', 'img') )
+    .pipe( plugins.replace('build/css/main.css', 'css/main.css') )
+    .pipe( plugins.replace('build/js/main.js', 'js/main.js') )
+    .pipe( plugins.replace('</html>', '</html>\n<!-- Made by Reformat (madebyreformat.co.uk) -->') )
+    .pipe( gulp.dest( options.dist.dir ) );
+});
+
 gulp.task('dist:js', function(){
   return gulp.src( ['src/js/plugins.js','src/js/plugins/*.js','src/js/main.js'] )
     .pipe( plugins.concat('main.js') )
@@ -106,8 +119,7 @@ gulp.task('dist:fonts',function(){
 gulp.task('dist:img',function(){
   return gulp.src( ['src/img/**/*','!src/img/**/*.fw.png','!src/img/**/*.ai'] )
   .pipe( plugins.image() )
-  .pipe( gulp.dest( options.dist.dir + '/img' ) )
-  .pipe( plugins.notify({ message: 'Images task complete' }) );
+  .pipe( gulp.dest( options.dist.dir + '/img' ) );
 });
 
 gulp.task( 'dist', function(callback) {
